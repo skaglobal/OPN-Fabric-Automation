@@ -1,0 +1,24 @@
+Install ansible:
+$ sudo apt update
+$ sudo apt install software-properties-common
+$ sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt update
+$ sudo apt install ansible
+
+
+Generate ssh keys:
+$ ssh-keygen
+Copy public key to remote host:
+$ ssh-copy-id username@remote_host
+Connect to remote host(if you wish):
+$ ssh 'username@remote_host'
+
+
+Define hosts to /etc/ansible/hosts
+
+
+Test connection:
+$ ansible -m ping all  -u bruce --sudo
+
+Play a playbook:
+$ ansible-playbook playbook1.yaml --ask-become-pass
