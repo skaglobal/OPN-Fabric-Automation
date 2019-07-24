@@ -1,5 +1,7 @@
 ---
-- hosts: orderer2
+- #hosts: localhost
+  hosts: 127.0.0.1
+  connection: local
   vars:
     GO_VERSION: 1.12.7
     OS: linux
@@ -61,7 +63,7 @@
       - command: apt install apt-transport-https 
         name: Installingapt-transport-https
         become: yes
-      - command: apt install  ca-certificates  
+      - command: apt install ca-certificates  
         name: Installing ca-certificates
         become: yes
       - command: apt install software-properties-common

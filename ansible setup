@@ -22,3 +22,26 @@ $ ansible -m ping all  -u bruce --sudo
 
 Play a playbook:
 $ ansible-playbook playbook1.yaml --ask-become-pass
+
+
+Preparing for docker-py
+$ sudo apt install python-pip
+
+install with root:
+$ pip install 'docker'
+$ pip install 'docker-compose'
+
+expose the remote docker daemoon on a external port:
+$ sudo systemctl edit docker.service to open an override file for docker.service in a text editor.
+
+Add or modify the following lines, substituting your own values:
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375
+
+$ sudo systemctl daemon-reload
+
+$ sudo systemctl restart docker.service
+
+ $  sudo netstat -lntp | grep dockerd
+ More at : https://docs.docker.com/install/linux/linux-postinstall/#configure-where-the-docker-daemon-listens-for-connections

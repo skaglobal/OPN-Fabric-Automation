@@ -1,0 +1,50 @@
+---
+- name: Copy crypto material to target machine for "{{ENTITY}}" - {{ORG}}
+  hosts: orderer1
+  #connection: local
+  #gather_facts: no
+  remote_user: "{{REMOTE_USER}}"
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Copy certificates with owner and permissions
+      copy:
+        src: ./docker/crypto-config/peerOrganizations/{{ORG}}
+        dest: /etc/crypto-config/
+        owner: root
+        group: sudo
+        mode: '0644'
+       # backup: yes
+
+
+- name: Apply docker compose for {{ENTITY}} - {{ORG}}
+  hosts: localhost
+  connection: local
+  #gather_facts: no
+  remote_user: "{{REMOTE_USER}}"
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install pip
+      apt: name=python-pip state=present
+    - name: install docker
+      pip: name=docker
+
+    - name: install docker-compose
+      pip: name=docker
+
+    - name: install docker[tls]
+      pip: name=docker[tls]
+
+    - docker_compose:
+        docker_host: "{{DOCKER_URL}}"
+        project_src: ./docker/{{ENTITY}}
+        state: present
+      register: output
+
+    - debug:
+        var: output
+
+    - assert:
+        that:
+          - "ca.ca_peer_{{ORG}}.state.running"
