@@ -1,0 +1,1 @@
+./fabric-ca-client enroll -u https://admin:adminpw@158.176.67.254:7054 --caname ca-org1_example_com --tls.certfiles <tls_cert_path>

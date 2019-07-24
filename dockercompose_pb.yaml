@@ -42,8 +42,8 @@
         state: present
       register: output
 
-    - debug:
-        var: output
+    #- debug:
+      #  var: output
 
     - assert:
         that:

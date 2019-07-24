@@ -10,13 +10,16 @@ services:
     restart: always
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
-      - FABRIC_CA_SERVER_CA_NAME=ca-org1
+      #- FABRIC_CA_SERVER_CA_NAME=ca-${ORG}
       - FABRIC_CA_SERVER_TLS_ENABLED=true
       - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/crt.pem
       - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/pk.pem
+     # - FABRIC_CA_CONFIG=/etc/hyperledger/fabric-ca-server-config/fabric-ca-config.yaml
     ports:
       - "7054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/crt.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/pk.pem -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --cafiles /etc/hyperledger/fabric-ca-server-config/fabric-ca-config.yaml  -b $CA_ADMIN:$CA_ADMIN_PWD -d'
+
+    #command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/crt.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/pk.pem --cafiles /etc/hyperledger/fabric-ca-server-config/fabric-ca-config.yaml  -b admin:adminpw -d'
     volumes:
       - "/etc/crypto-config/${ORG}/ca/:/etc/hyperledger/fabric-ca-server-config"
     container_name: ca_peer_${ORG}
