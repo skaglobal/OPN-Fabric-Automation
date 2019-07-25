@@ -10,6 +10,8 @@ Generate ssh keys:
 $ ssh-keygen
 Copy public key to remote host:
 $ ssh-copy-id username@remote_host
+List your ssh keys:
+$ ls ~/.ssh/*.pub
 Connect to remote host(if you wish):
 $ ssh 'username@remote_host'
 

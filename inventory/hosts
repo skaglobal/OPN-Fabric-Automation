@@ -4,9 +4,10 @@
 orderer1 ansible_host=158.176.67.254
 orderer2 ansible_host=158.176.67.247
 localhost ansible_host=localhost
+gcp ansible_host=34.93.54.97
 
 [dev:vars]
-ORG=org1_example_com
+ORG=arabae
 ENTITY=CA
 DOCKER_URL=tcp://158.176.67.254:2375
 REMOTE_USER=vishal

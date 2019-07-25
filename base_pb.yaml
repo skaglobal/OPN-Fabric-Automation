@@ -1,11 +1,12 @@
 ---
 - #hosts: localhost
-  hosts: 127.0.0.1
-  connection: local
+  hosts: gcp
+  #connection: local
   vars:
     GO_VERSION: 1.12.7
     OS: linux
     ARCH: amd64
+    DOCKER_COMPOSE_VER: 1.24.1
     go_pkg_url: https://dl.google.com/go/go{{GO_VERSION}}.{{OS}}-{{ARCH}}.tar.gz
   
   remote_user: vishal  
@@ -60,15 +61,15 @@
       - command: apt update
         name: Updating Package list
         become: yes
-      - command: apt install apt-transport-https 
+      - command: apt install apt-transport-https
         name: Installingapt-transport-https
         become: yes
-      - command: apt install ca-certificates  
+      - command: apt install ca-certificates
         name: Installing ca-certificates
         become: yes
       - command: apt install software-properties-common
         name: Installing software-properties-common
-        become: yes                
+        become: yes
       - shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
         name: Adding docker gpg key
         become: yes
@@ -78,8 +79,16 @@
       - command: apt update
         name: Updating Package list
         become: yes
-      - command: apt install docker-ce
-        name: installing docker
+      - name: installing docker
+        apt: name=docker-ce state=present
+      #- command: apt install docker-ce
+      #  name: installing docker
+        become: yes
+      - shell: curl -L "https://github.com/docker/compose/releases/download/{{DOCKER_COMPOSE_VER}}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        name: Downloading docker-compose
+        become: yes
+      - shell: chmod +x /usr/local/bin/docker-compose
+        name: Change permission
         become: yes
     rescue:
       - debug:

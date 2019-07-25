@@ -9,8 +9,8 @@
   tasks:
     - name: Copy certificates with owner and permissions
       copy:
-        src: ./docker/crypto-config/peerOrganizations/{{ORG}}
-        dest: /etc/crypto-config/
+        src: ./docker/crypto-config/{{ENTITY}}/{{ORG}}/
+        dest: /etc/crypto-config/{{ORG}}
         owner: root
         group: sudo
         mode: '0644'
@@ -36,9 +36,14 @@
     - name: install docker[tls]
       pip: name=docker[tls]
 
+   # - docker_compose:
+    #    docker_host: "{{DOCKER_URL}}"
+    #    project_src: ./docker/docker-compose/{{ENTITY}}
+    #    remove_orphans: yes
+    #    state: absent
     - docker_compose:
         docker_host: "{{DOCKER_URL}}"
-        project_src: ./docker/{{ENTITY}}
+        project_src: ./docker//docker-compose/{{ENTITY}}
         state: present
       register: output
 
