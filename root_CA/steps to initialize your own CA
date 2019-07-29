@@ -1,0 +1,4 @@
+$ openssl ecparam -genkey -name secp384r1  -out private/pkey.pem
+$ openssl req -config openssl_root.cnf -new -x509 -sha384 -extensions v3_ca -key private/pkey.pem -out certs/crt.pem
+ - Remeber to provide SAN details
+ - Delete extra content from private key

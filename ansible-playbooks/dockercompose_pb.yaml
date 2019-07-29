@@ -1,0 +1,82 @@
+---
+- name: Compress crypto-config
+
+  hosts: localhost
+  connection: local
+  #gather_facts: no
+  remote_user: "{{REMOTE_USER}}"
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Compress directory locally
+      archive:
+        path: ../fabric-crypto/
+        dest: /tmp/fabric-crypto.tar
+
+
+- name: Copy crypto material to target machine 
+  hosts: arabae
+  #connection: local
+  #gather_facts: no
+  remote_user: "{{REMOTE_USER}}"
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Copy crypto archive to target
+      copy:
+        src: /tmp/fabric-crypto.tar
+        dest: /tmp/
+        owner: root
+        group: sudo
+        mode: '0644'
+       # backup: yes
+
+    - name: Create fabric-crypto directory
+      file:
+       path: /etc/fabric-crypto
+       state: directory
+       mode: "0644"
+
+    - name: extract crypto archive to /etc/fabric-crypto
+      unarchive:
+        src: /tmp/fabric-crypto.tar
+        dest: /etc/fabric-crypto/
+
+
+
+- name: Apply docker compose 
+  hosts: localhost
+  connection: local
+  #gather_facts: no
+  remote_user: "{{REMOTE_USER}}"
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install pip
+      apt: name=python-pip state=present
+    - name: install docker
+      pip: name=docker
+
+    - name: install docker-compose
+      pip: name=docker
+
+    - name: install docker[tls]
+      pip: name=docker[tls]
+
+   # - docker_compose:
+    #    docker_host: "{{DOCKER_URL}}"
+    #    project_src: ./docker/docker-compose/{{ENTITY}}
+    #    remove_orphans: yes
+    #    state: absent
+    - docker_compose:
+        docker_host: "{{DOCKER_URL}}"
+        project_src: ../docker-compose/{{ENTITY}}
+        state: present
+      register: output
+
+    - debug:
+        var: output
+
+   # - assert:
+       # that:
+       #   - "ca.ca_peer_{{ORG}}.state.running"

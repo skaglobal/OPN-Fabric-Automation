@@ -1,2 +1,4 @@
-crypto-config
-ca-client/bin
+fabric-crypto
+root_CA/certs
+root_CA/private
+fabric-ca-client/msp

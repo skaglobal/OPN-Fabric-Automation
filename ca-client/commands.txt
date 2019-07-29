@@ -1,4 +1,0 @@
-./fabric-ca-client enroll -u https://admin1:adminpw@158.176.67.254:7054 --caname ordererCA --tls.certfiles <tls_cert_path>
-
-
-./fabric-ca-client register --id.name tlsca --id.affiliation ibp.PeerOrg1 --id.secret userpw  --tls.certfiles $HOME/tls/us2.blockchain.ibm.com.cert
