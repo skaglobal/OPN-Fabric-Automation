@@ -1,10 +1,10 @@
 
 
-version: '2.3'
+version: '3'
 
 volumes:
-  peer0.arabae.opn.com:
-  peer1.arabae.opn.com:
+  peer0.arabjo.opn.com:
+  peer1.arabjo.opn.com:
 
 networks:
   opn-bridge:
@@ -12,8 +12,8 @@ networks:
     external: true
 
 services:
-  peer0.arabae.opn.com:
-    #container_name: peer0.arabae.opn.com
+  peer0:
+    #container_name: peer0_arabjo_opn_com
     ####scale: 1
     restart: always
     image: hyperledger/fabric-peer:$IMAGE_TAG
@@ -23,8 +23,8 @@ services:
       # bridge network as the peers
       # https://docs.docker.com/compose/networking/
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_opn-bridge
-      - FABRIC_LOGGING_SPEC=INFO
-      #- FABRIC_LOGGING_SPEC=DEBUG
+      #- FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_LOGGING_SPEC=DEBUG
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
@@ -32,13 +32,13 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer0.${ORG_NAME}.opn.com
-      - CORE_PEER_ADDRESS=peer0.${ORG_NAME}.opn.com:7051
+      - CORE_PEER_ID=peer0
+      - CORE_PEER_ADDRESS=peer0:7051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.${ORG_NAME}.opn.com:7052
+      - CORE_PEER_CHAINCODEADDRESS=peer0:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.${ORG_NAME}.opn.com:8051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.${ORG_NAME}.opn.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0:7051
       - CORE_PEER_LOCALMSPID=${ORG_MSP}
       - CORE_OPERATIONS_LISTENADDRESS=:8443
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
@@ -65,8 +65,8 @@ services:
     depends_on:
       - couchdb0
 
-  peer1.arabae.opn.com:
-    #container_name: peer1.arabae.opn.com
+  peer1:
+    #container_name: peer1_arabjo.opn.com
     ####scale: 1
     restart: always
     image: hyperledger/fabric-peer:$IMAGE_TAG
@@ -76,8 +76,8 @@ services:
       # bridge network as the peers
       # https://docs.docker.com/compose/networking/
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_opn-bridge
-      - FABRIC_LOGGING_SPEC=INFO
-      #- FABRIC_LOGGING_SPEC=DEBUG
+      #- FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_LOGGING_SPEC=DEBUG
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
@@ -85,13 +85,13 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer1.${ORG_NAME}.opn.com
-      - CORE_PEER_ADDRESS=peer1.${ORG_NAME}.opn.com:8051
+      - CORE_PEER_ID=peer1
+      - CORE_PEER_ADDRESS=peer1:8051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
-      - CORE_PEER_CHAINCODEADDRESS=peer1.${ORG_NAME}.opn.com:8052
+      - CORE_PEER_CHAINCODEADDRESS=peer1:8052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.${ORG_NAME}.opn.com:8051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.${ORG_NAME}.opn.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0:7051
       - CORE_PEER_LOCALMSPID=${ORG_MSP}
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
@@ -117,8 +117,9 @@ services:
       - couchdb1
 
   cli:
-    container_name: cli
+    #container_name: cli
     image: hyperledger/fabric-tools:$IMAGE_TAG
+    restart: always
     tty: true
     stdin_open: true
     environment:
@@ -127,7 +128,7 @@ services:
       #- FABRIC_LOGGING_SPEC=DEBUG
       - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.${ORG_NAME}.opn.com:7051
+      - CORE_PEER_ADDRESS=peer0:7051
       - CORE_PEER_LOCALMSPID=${ORG_MSP}
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/${ORG_NAME}.opn.com/peers/peer0.${ORG_NAME}.opn.com/tls/server.crt
@@ -143,16 +144,15 @@ services:
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - /etc/fabric-crypto/channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
-      - peer0.arabae.opn.com
-      - peer1.arabae.opn.com
+      - peer0
+      - peer1
     networks:
       - opn-bridge
       - opn-net
 
   couchdb1:
-    container_name: couchdb1
+    #container_name: couchdb1
     image: hyperledger/fabric-couchdb
-    scale: 1
     restart: always
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
     # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
@@ -165,11 +165,11 @@ services:
       - "6984:5984"
     networks:
       - opn-bridge
+      - opn-net
       
   couchdb0:
-    container_name: couchdb0
+    #container_name: couchdb0
     image: hyperledger/fabric-couchdb
-    scale: 1
     restart: always
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
     # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
@@ -181,4 +181,5 @@ services:
     ports:
       - "5984:5984"
     networks:
-      - opn-bridge      
+      - opn-bridge
+      - opn-net

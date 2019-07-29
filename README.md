@@ -31,13 +31,14 @@ Generate certificates:
 Join channel:
 export CHANNEL_NAME=mychannel
 
-peer channel create -o orderer1.opn.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem
+peer channel create -o 34.93.54.97:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem
  peer channel join -b mychannel.block
 Update anchor peer:
-peer channel update -o orderer1.opn.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem
+peer channel update -o 34.93.54.97:7050 -c $CHANNEL_NAME -f ./channel-artifacts/arabaeMSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem
 
-peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
-peer chaincode instantiate -o orderer1.opn.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR('ArabAEMSP.peer')"
+peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_opn02/go/
+
+peer chaincode instantiate -o orderer1.opn.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR('ArabAEMSP.peer','ArabJOMSP.peer')"
 
 peer chaincode instantiate -o orderer1.opn.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR ('ArabAMSP.peer')"
 peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
@@ -50,3 +51,17 @@ peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
 Securing docker socket:
 https://docs.docker.com/engine/security/https/
 
+sudo docker rm -f $(sudo docker ps -aq) && sudo docker volume prune  
+
+ sudo rm -rf /opt/docker-compose && sudo rm -rf /etc/fabric-crypto
+
+
+
+peer chaincode invoke -o orderer1.opn.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc --peerAddresses peer0.arabae.opn.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabae.opn.com/peers/peer0.arabae.opn.com/tls/ca.crt --peerAddresses peer0.arabjo.opn.com:9051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabjo.opn.com/peers/peer0.arabjo.opn.com/tls/ca.crt -c '{"Args":["invoke","a","b","10"]}'
+
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabjo.opn.com/users/Admin@arabjo.opn.com/msp
+CORE_PEER_ADDRESS=peer0.arabjo.opn.com:10051
+CORE_PEER_LOCALMSPID="ArabJOMSP"
+CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabjo.opn.com/peers/peer1.arabjo.opn.com/tls/ca.crt
+N

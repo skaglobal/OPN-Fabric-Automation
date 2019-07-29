@@ -1,6 +1,6 @@
 
 
-version: '2.3'
+version: '3'
 
 volumes:
   orderer1.opn.com:
@@ -15,11 +15,11 @@ networks:
   opn-bridge: 
 
 services:
-  orderer.opn.com:
+  orderer1:
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     restart: always
     environment:
-      - FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_LOGGING_SPEC=DEBUG
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
@@ -48,7 +48,7 @@ services:
     ports:
     - 7050:7050
 
-  orderer2.opn.com:
+  orderer2:
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     restart: always
     environment:
@@ -81,7 +81,7 @@ services:
     ports:
     - 8050:7050
 
-  orderer3.opn.com:
+  orderer3:
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     restart: always
     environment:
@@ -114,7 +114,7 @@ services:
     ports:
     - 9050:7050
 
-  orderer4.opn.com:
+  orderer4:
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     restart: always
     environment:
@@ -147,7 +147,7 @@ services:
     ports:
     - 10050:7050
 
-  orderer5.opn.com:
+  orderer5:
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     restart: always
     environment:

@@ -13,11 +13,22 @@
         path: ../fabric-crypto/
         dest: /tmp/fabric-crypto.tar
 
+    - name: Install pip
+      apt: name=python-pip state=present
 
-- name: Copy crypto material to target machine 
-  hosts: arabae
+    - name: install docker
+      pip: name=docker
+
+    - name: install docker-compose
+      pip: name=docker
+
+    - name: install docker[tls]
+      pip: name=docker[tls]
+
+
+- name: Copy crypto material to target machine
+  hosts: arabjo
   #connection: local
-  #gather_facts: no
   remote_user: "{{REMOTE_USER}}"
   become: yes
   become_method: sudo
@@ -42,9 +53,38 @@
         src: /tmp/fabric-crypto.tar
         dest: /etc/fabric-crypto/
 
+    - name: Copy docker-compose to target
+      copy:
+        src: ../docker-compose/{{ENTITY}}/
+        dest: /opt/docker-compose/
+        owner: root
+        group: sudo
+        mode: '0644'
+        #forec: yes
+       # backup: yes
 
 
-- name: Apply docker compose 
+
+   # - name: Deploy stack from a compose file
+   #   command: env ORG_NAME={{ORG_NAME}} IMAGE_TAG={{IMAGE_TAG}} ORG_MSP={{ORG_MSP}} docker stack deploy --compose-file /opt/docker-compose/docker-compose.yaml opnstack 
+   #   become: yes
+
+   # - name: Deploy stack from a compose file
+   #   docker_stack:
+   #      state: present
+    #     name: opnstack
+    #     compose:
+     #       - /opt/docker-compose/docker-compose.yaml
+     # register: output
+
+   # - debug:
+   #     var: output
+
+
+
+# remove this after  stack deployis in place
+- name: apply docker compose
+
   hosts: localhost
   connection: local
   #gather_facts: no
@@ -52,30 +92,18 @@
   become: yes
   become_method: sudo
   tasks:
-    - name: Install pip
-      apt: name=python-pip state=present
-    - name: install docker
-      pip: name=docker
 
-    - name: install docker-compose
-      pip: name=docker
-
-    - name: install docker[tls]
-      pip: name=docker[tls]
-
-   # - docker_compose:
-    #    docker_host: "{{DOCKER_URL}}"
-    #    project_src: ./docker/docker-compose/{{ENTITY}}
-    #    remove_orphans: yes
-    #    state: absent
+    - docker_compose:
+        docker_host: "{{DOCKER_URL}}"
+        project_src: ../docker-compose/{{ENTITY}}
+        remove_orphans: yes
+        state: absent
     - docker_compose:
         docker_host: "{{DOCKER_URL}}"
         project_src: ../docker-compose/{{ENTITY}}
         state: present
       register: output
 
-    - debug:
-        var: output
 
    # - assert:
        # that:

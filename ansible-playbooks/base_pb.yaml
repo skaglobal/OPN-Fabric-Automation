@@ -1,6 +1,6 @@
 ---
 - #hosts: localhost
-  hosts: gcp
+  hosts: arabjo
   #connection: local
   vars:
     GO_VERSION: 1.12.7
