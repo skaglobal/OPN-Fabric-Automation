@@ -27,7 +27,7 @@
 
 
 - name: Copy crypto material to target machine
-  hosts: arabjo
+  hosts: arabae
   #connection: local
   remote_user: "{{REMOTE_USER}}"
   become: yes

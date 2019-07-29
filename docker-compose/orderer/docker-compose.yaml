@@ -10,8 +10,8 @@ volumes:
   orderer5.opn.com:
 
 networks:
-  opn-net:
-   external: true
+  #opn-net:
+   #external: true
   opn-bridge: 
 
 services:
@@ -38,7 +38,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     networks:
-    - opn-net
+    #- opn-net
     - opn-bridge
     volumes:
         - /etc/fabric-crypto/channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
@@ -71,7 +71,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     networks:
-    - opn-net
+    #- opn-net
     - opn-bridge
     volumes:
         - /etc/fabric-crypto/channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
@@ -104,7 +104,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     networks:
-    - opn-net
+    #- opn-net
     - opn-bridge
     volumes:
         - /etc/fabric-crypto/channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
@@ -137,7 +137,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     networks:
-    - opn-net
+    #- opn-net
     - opn-bridge
     volumes:
         - /etc/fabric-crypto/channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
@@ -170,7 +170,7 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     networks:
-    - opn-net
+    #- opn-net
     - opn-bridge
     volumes:
         - /etc/fabric-crypto/channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block

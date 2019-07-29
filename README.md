@@ -38,7 +38,7 @@ peer channel update -o 34.93.54.97:7050 -c $CHANNEL_NAME -f ./channel-artifacts/
 
 peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_opn02/go/
 
-peer chaincode instantiate -o orderer1.opn.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR('ArabAEMSP.peer','ArabJOMSP.peer')"
+peer chaincode instantiate -o 34.93.54.97:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR('ArabJOMSP.peer')"
 
 peer chaincode instantiate -o orderer1.opn.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR ('ArabAMSP.peer')"
 peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
@@ -57,7 +57,7 @@ sudo docker rm -f $(sudo docker ps -aq) && sudo docker volume prune
 
 
 
-peer chaincode invoke -o orderer1.opn.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc --peerAddresses peer0.arabae.opn.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabae.opn.com/peers/peer0.arabae.opn.com/tls/ca.crt --peerAddresses peer0.arabjo.opn.com:9051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabjo.opn.com/peers/peer0.arabjo.opn.com/tls/ca.crt -c '{"Args":["invoke","a","b","10"]}'
+peer chaincode invoke -o 34.93.54.97:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem -C $CHANNEL_NAME -n mycc --peerAddresses 158.176.67.249:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabae.opn.com/peers/peer0.arabae.opn.com/tls/ca.crt --peerAddresses peer0:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabjo.opn.com/peers/peer0.arabjo.opn.com/tls/ca.crt -c '{"Args":["invoke","a","b","10"]}
 
 
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabjo.opn.com/users/Admin@arabjo.opn.com/msp
