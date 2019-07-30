@@ -17,22 +17,32 @@ This  projects has different sub modules to achieve one or more of the above tas
 ## Sub modules overview
 
 |
+
 |___ root_CA   :   openssl configuration for generating root CA for different orgs
+
 |___ fabric-crypto :  generates channel artifacts
+
 |___ ansible-playbooks : playbooks to start orderer, peer-prg and CA
+
 |___ docker-compose : docker compose files (needed to execute playbooks)
+
 |___ Utils : Util binaries
+
 |___ Utils/opn-cryptogen : generates msp for peers, users and orderers. Require org root ca
+
 |___ Utils/fabric-ca-client : generates msp for additional users/peers.
+
         
 
 
 ## Prerequisites
+
  -  Provision VMs for your Orgs(preferably three)
  -  Run ansible playbook [ansible-playbooks/base_pb.yaml]. This install all the dependencies on target VMs
  
 
 ## Generating root CAs
+
 Navigate to root_CA folder. You would like to have a look over openssl_root.conf to modify some of the certificates parameters.
 Run to generate the private key(!! fabric only supports ECDSA signatures, no RSA):
 ```sh
@@ -44,7 +54,9 @@ openssl req -config openssl_root.cnf -new -x509 -sha384 -extensions v3_ca -key p
 ```
 
 ### Generating crypto materials for the entities
+
 Fabric-ca-server is optional. As generating crypto-material with fabric-ca-server is quite laborious. OPN-Cryptogen takes in root CA certificates and a crypto-config file and return the MSP definition.
+
 |
 |
 |
