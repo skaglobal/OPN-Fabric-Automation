@@ -1,18 +1,15 @@
-##!!!!!!!!!!!! Never use '.' in value for an variable
-
 [dev]
 orderer1 ansible_host=158.176.67.254
 arabjo ansible_host=158.176.67.247
-arabae ansible_host=158.176.67.249
+arabae ansible_host=158.176.67.250
 localhost ansible_host=localhost
 orderer ansible_host=34.93.54.97
 
 [dev:vars]
  #CA/orderer/peerOrg
 ENTITY=peerOrg-arabae
-#peerOrg-arabae
-DOCKER_URL=tcp://158.176.67.249:2375
+#peerOrg-arab
+DOCKER_URL=tcp://158.176.67.250:2375
 #34.93.54.97:2375
 #158.176.67.254:2375
 REMOTE_USER=vishal
-

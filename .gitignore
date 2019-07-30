@@ -2,3 +2,4 @@ fabric-crypto
 root_CA/certs
 root_CA/private
 fabric-ca-client/msp
+crypto-config

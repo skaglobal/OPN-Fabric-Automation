@@ -1,6 +1,6 @@
 ---
 - #hosts: localhost
-  hosts: arabjo
+  hosts: arabae
   #connection: local
   vars:
     GO_VERSION: 1.12.7
@@ -55,9 +55,9 @@
         become: yes
       - debug:
           msg: '====== Installing docker ======'  
-      - command: apt remove docker docker-engine docker.io
-        name: Cleaning previous versions
-        become: yes
+      #- command: apt remove docker docker-engine docker.io
+      #  name: Cleaning previous versions
+      #  become: yes
       - command: apt update
         name: Updating Package list
         become: yes

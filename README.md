@@ -34,7 +34,7 @@ export CHANNEL_NAME=mychannel
 peer channel create -o 34.93.54.97:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem
  peer channel join -b mychannel.block
 Update anchor peer:
-peer channel update -o 34.93.54.97:7050 -c $CHANNEL_NAME -f ./channel-artifacts/arabaeMSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem
+peer channel update  -f ./channel-artifacts/  -o 34.93.54.97:7050 -c $CHANNEL_NAME --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/opn.com/orderers/orderer1.opn.com/msp/tlscacerts/tlsca.opn.com-cert.pem
 
 peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_opn02/go/
 
