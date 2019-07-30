@@ -1,7 +1,72 @@
-# OPN-Fabric-Automation
-Deployment automation for fabric network components
+# OPN-Fabric-ABCD
+(Anybody can deploy ; ) )
 
 
+
+This project provides a utility to bootstrap a fabric network. A fabric network requires:
+ - Generating root certificates for orderer and peer organization
+ - Generating crypto materials(certificates for peers, orderers and users)
+ - Generating channel artificats + anchor peer tx
+ - Start orderer cluster
+ - Start org-peers
+ - Create a channel
+ - Add peers to channel
+ 
+This  projects has different sub modules to achieve one or more of the above tasks.
+
+## Sub modules overview
+
+|
+|___ root_CA   :   openssl configuration for generating root CA for different orgs
+|___ fabric-crypto :  generates channel artifacts
+|___ ansible-playbooks : playbooks to start orderer, peer-prg and CA
+|___ docker-compose : docker compose files (needed to execute playbooks)
+|___ Utils : Util binaries
+|___ Utils/opn-cryptogen : generates msp for peers, users and orderers. Require org root ca
+|___ Utils/fabric-ca-client : generates msp for additional users/peers.
+        
+
+
+## Prerequisites
+ -  Provision VMs for your Orgs(preferably three)
+ -  Run ansible playbook [ansible-playbooks/base_pb.yaml]. This install all the dependencies on target VMs
+ 
+
+## Generating root CAs
+Navigate to root_CA folder. You would like to have a look over openssl_root.conf to modify some of the certificates parameters.
+Run to generate the private key(!! fabric only supports ECDSA signatures, no RSA):
+```sh
+openssl ecparam -genkey -name secp384r1  -out private/pkey.pem
+```
+Run to generate public certificate (add SANs details to openssl_root.conf for tls(optional)):
+```
+openssl req -config openssl_root.cnf -new -x509 -sha384 -extensions v3_ca -key private/pkey.pem -out certs/crt.pem
+```
+
+### Generating crypto materials for the entities
+Fabric-ca-server is optional. As generating crypto-material with fabric-ca-server is quite laborious. OPN-Cryptogen takes in root CA certificates and a crypto-config file and return the MSP definition.
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+WIP......
 ====================================================================
 https://docs.docker.com/network/network-tutorial-overlay/#use-the-default-overlay-network
 
