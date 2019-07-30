@@ -64,4 +64,7 @@ CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypt
 CORE_PEER_ADDRESS=peer0.arabjo.opn.com:10051
 CORE_PEER_LOCALMSPID="ArabJOMSP"
 CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/arabjo.opn.com/peers/peer1.arabjo.opn.com/tls/ca.crt
-N
+
+
+Discovery:
+discover --configFile conf.yaml --peerTLSCA ../crypto-config/peerOrganizations/arabae.opn.com/peers/peer0.arabae.opn.com/tls/ca.crt --userKey ../crypto-config/peerOrganizations/arabae.opn.com/users/User1@arabae.opn.com/msp/keystore/d48bb4e36b6f0760ab12af5629521ff49875fdd9c5e05e01a7f722a35f5bd4e4_sk --userCert ../crypto-config/peerOrganizations/arabae.opn.com/users/User1@arabae.opn.com/msp/signcerts/User1@arabae.opn.com-cert.pem --MSP ArabAEMSP saveConfig

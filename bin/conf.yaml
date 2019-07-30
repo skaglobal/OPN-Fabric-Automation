@@ -1,0 +1,10 @@
+version: 0
+tlsconfig:
+  certpath: ""
+  keypath: ""
+  peercacertpath: /home/vishal/drive/OPN-Fabric-Automation/fabric-crypto/crypto-config/peerOrganizations/arabae.opn.com/peers/peer0.arabae.opn.com/tls/ca.crt
+  timeout: 0s
+signerconfig:
+  mspid: ArabAEMSP
+  identitypath: /home/vishal/drive/OPN-Fabric-Automation/fabric-crypto/crypto-config/peerOrganizations/arabae.opn.com/users/User1@arabae.opn.com/msp/signcerts/User1@arabae.opn.com-cert.pem
+  keypath: /home/vishal/drive/OPN-Fabric-Automation/fabric-crypto/crypto-config/peerOrganizations/arabae.opn.com/users/User1@arabae.opn.com/msp/keystore/b70ba107c2ab178807b60a6b381b7de6b10f2bae230c355acdb8420054d4439f_sk
