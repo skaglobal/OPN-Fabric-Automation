@@ -53,13 +53,13 @@
         src: /tmp/fabric-crypto.tar
         dest: /etc/fabric-crypto/
 
-    - name: Copy docker-compose to target
-      copy:
-        src: ../docker-compose/{{ENTITY}}/
-        dest: /opt/docker-compose/
-        owner: root
-        group: sudo
-        mode: '0644'
+    #- name: Copy docker-compose to target
+    #  copy:
+     #   src: ../docker-compose/{{ENTITY}}/
+     #   dest: /opt/docker-compose/
+      #  owner: root
+      #  group: sudo
+       # mode: '0644'
         #forec: yes
        # backup: yes
 

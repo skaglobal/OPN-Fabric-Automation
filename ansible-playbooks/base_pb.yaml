@@ -1,6 +1,6 @@
 ---
 - #hosts: localhost
-  hosts: arabae
+  hosts: swarm2
   #connection: local
   vars:
     GO_VERSION: 1.12.7
@@ -8,11 +8,11 @@
     ARCH: amd64
     DOCKER_COMPOSE_VER: 1.24.1
     go_pkg_url: https://dl.google.com/go/go{{GO_VERSION}}.{{OS}}-{{ARCH}}.tar.gz
-  
-  remote_user: vishal  
+
+  remote_user: root
   become: no
   become_method: sudo
-  
+
   tasks:
   - name: Install curl
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
@@ -24,19 +24,19 @@
           msg: 'Installing  go'
       - command: wget {{go_pkg_url}}
         name: Download golang
-        args: 
+        args:
           chdir: /tmp
-          creates: /tmp/go{{GO_VERSION}}.{{OS}}-{{ARCH}}.tar.gz  
+          creates: /tmp/go{{GO_VERSION}}.{{OS}}-{{ARCH}}.tar.gz
       - command: tar -C /usr/local -xzf go{{GO_VERSION}}.{{OS}}-{{ARCH}}.tar.gz
         become: yes
         name: Install go
-        args: 
-          chdir: /tmp 
+        args:
+          chdir: /tmp
       - file:
           name: Creating GOHOME dir
           path: $HOME/go
           state: directory
-          mode: '0755'     
+          mode: '0755'
       - file:
           path: $HOME/go/bin
           state: directory
@@ -45,7 +45,7 @@
           path: $HOME/go/src
           state: directory
           mode: '0755'
-      - shell: echo "export PATH=\$PATH:/usr/local/go/bin" >> env.sh && echo "export GOPATH=\$HOME/go" >> env.sh && echo "export PATH=\$PATH:\$GOPATH/bin" >> env.sh 
+      - shell: echo "export PATH=\$PATH:/usr/local/go/bin" >> env.sh && echo "export GOPATH=\$HOME/go" >> env.sh && echo "export PATH=\$PATH:\$GOPATH/bin" >> env.sh
         become: yes
         name: Define path variables globally
         args:
@@ -54,7 +54,7 @@
         name: Source env.sh
         become: yes
       - debug:
-          msg: '====== Installing docker ======'  
+          msg: '====== Installing docker ======'
       #- command: apt remove docker docker-engine docker.io
       #  name: Cleaning previous versions
       #  become: yes
@@ -93,5 +93,4 @@
     rescue:
       - debug:
           msg: 'Install setup caught an error'
-   
-  
+

@@ -24,6 +24,7 @@ $ ansible -m ping all  -u bruce --sudo
 
 Play a playbook:
 $ ansible-playbook playbook1.yaml --ask-become-pass
+ansible-playbook ./ansible-playbooks/base_pb.yaml -i ansible-playbooks/inventory/hosts
 
 
 Preparing for docker-py
