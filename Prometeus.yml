@@ -1,0 +1,46 @@
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'PSPEER'
+    scheme: 'https'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    tls_config:
+          # CA certificate to validate API server certificate with.
+      ca_file: 'certificateps.pem'
+
+          # Certificate and key files for client cert authentication to the server.
+      cert_file: 'certificateps.pem'
+      key_file: 'private_keyps.pem'
+
+          # ServerName extension to indicate the name of the server.
+          # https://tools.ietf.org/html/rfc4366#section-3.1
+      #[ server_name: <string> ]
+
+          # Disable validation of the server certificate.
+      insecure_skip_verify: true
+
+    static_configs:
+    - targets: ['nce3c4f-arabpspeer0.abdev.eu-de.containers.appdomain.cloud:9443']
+
+
