@@ -1,5 +1,5 @@
 
-
+## use different  ca /tls certificates
 version: '2'
 
 networks:
@@ -19,8 +19,8 @@ services:
       - "7054:7054"
     #command: sh -c 'fabric-ca-server start --cafiles /etc/hyperledger/fabric-ca-server-config/fabric-ca-config.yaml  -b $CA_ADMIN:$CA_ADMIN_PWD -d'
 
-    #command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/crt.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/pk.pem   -b admin:adminpw -d'
-    command: sh -c 'fabric-ca-server start  -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/crt.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/pk.pem   -b admin:adminpw -d'
+    #command: sh -c 'fabric-ca-server start  -b admin:adminpw -d'
 
     volumes:
       - "/etc/crypto-config/${ORG}/:/etc/hyperledger/fabric-ca-server-config"
